@@ -17,7 +17,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define BMP280_DEFAULT_ADDRESS 0x77
+#define BMP280_DEFAULT_ADDRESS 0x76
 
 class BMP280
 {
