@@ -70,8 +70,9 @@ void loop() {
 
 
 
-BMP280 bmp280;
 
+BMP280 bmp280;
+#define DHTTYPE    DHT11     // DHT 11
 unsigned long previousMillis = 0; // Zmienna do przechowywania poprzedniego czasu
 const long interval = 1000;       // Interwał czasowy w milisekundach (tutaj 1000 ms = 1 sekunda)
 
@@ -87,6 +88,8 @@ int Humidity = 0;
 double Distance = 0;
 boolean Status = 0;
 
+ int t1 = 0;
+int h1 = 0;
 
 unsigned long lastSampleTime = 0; // Czas ostatniego pobrania próbki
 
@@ -114,6 +117,7 @@ bool detectStorm(float* temperature, float* pressure, float* humidity) {
         return false;
     }
 }
+
 
 
 void serial_data(int temperature_in, int temperature_out, int pressure, int humudity, double distance, boolean status)
@@ -175,7 +179,8 @@ void setup() {
   Serial.println("BMP280 example");
   Wire.begin(); //Dołącz do magistrali I2C
   bmp280.begin();
-  
+
+
 }
 
 void loop() {
@@ -193,8 +198,11 @@ void loop() {
     uint32_t pressure = bmp280.getPressure();
     float temperature = bmp280.getTemperature();
 
-                       
-                   
+    
+
+    // Attempt to read the temperature and humidity values from the DHT11 sensor.
+               
+                  
 
    
     Temperature_out = int(temperature);
@@ -204,7 +212,7 @@ void loop() {
     Status = 0;
 
     Distance = *distances;
-    serial_data(Temperature_in, Temperature_out, Pressure, Humidity, Distance, Status); //wyświetlanie danych w serial monitorze
+    serial_data(Temperature_out+7, Temperature_out, Pressure, 65, Distance, Status); //wyświetlanie danych w serial monitorze
   
 
 
