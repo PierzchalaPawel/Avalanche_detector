@@ -122,6 +122,7 @@ bool detectStorm(float* temperature, float* pressure, float* humidity) {
 
 void serial_data(uint16_t temperature_in, uint16_t temperature_out, uint16_t pressure, uint8_t humidity, uint16_t distance, uint8_t status)
   {
+    /*
     uint8_t buffer[16];
 
     buffer[0] = 0xAA;
@@ -151,48 +152,49 @@ void serial_data(uint16_t temperature_in, uint16_t temperature_out, uint16_t pre
     buffer[15] = crc & 0xFF;
 
     Serial.print((char*)buffer);
+    */
 
-    // if(temperature_in > -1)
-    // {
-    // Serial.print(" ");
-    // Serial.print(temperature_in);
-    // Serial.print("\xC2\xB0");
-    // Serial.print("/");
-    // }
-    // else
-    // {
-    // Serial.print(temperature_in);
-    // Serial.print("\xC2\xB0");
-    // Serial.print("/");
-    // }
+    if(temperature_in > -1)
+    {
+    Serial.print(" ");
+    Serial.print(temperature_in);
+    Serial.print("\xC2\xB0");
+    Serial.print("/");
+    }
+    else
+    {
+    Serial.print(temperature_in);
+    Serial.print("\xC2\xB0");
+    Serial.print("/");
+    }
 
-    // if(temperature_out > -1)
-    // {
-    // Serial.print(temperature_out);
-    // Serial.print(" \xC2\xB0");
-    // Serial.print("/");
-    // }
-    // else
-    // {
-    // Serial.print(" ");
-    // Serial.print(temperature_out);
-    // Serial.print("\xC2\xB0");
-    // Serial.print("/");
-    // }
-    // Serial.print(pressure);
-    // Serial.print("hPa");
-    // Serial.print("/");
+    if(temperature_out > -1)
+    {
+    Serial.print(temperature_out);
+    Serial.print(" \xC2\xB0");
+    Serial.print("/");
+    }
+    else
+    {
+    Serial.print(" ");
+    Serial.print(temperature_out);
+    Serial.print("\xC2\xB0");
+    Serial.print("/");
+    }
+    Serial.print(pressure);
+    Serial.print("hPa");
+    Serial.print("/");
 
-    // Serial.print(humudity);
-    // Serial.print("%RH");
-    // Serial.print("/");
+    Serial.print(humidity);
+    Serial.print("%RH");
+    Serial.print("/");
 
-    // Serial.print(distance);
-    // Serial.print("cm");
-    // Serial.print("/");
+    Serial.print(distance);
+    Serial.print("cm");
+    Serial.print("/");
 
-    // Serial.print(status);
-    // Serial.print("/");
+    Serial.print(status);
+    Serial.print("/");
   }
 
 
@@ -233,14 +235,21 @@ void loop() {
                   
 
    
-    Temperature_out = int(temperature);
+    Temperature_out = int(temperature)+7;
     Pressure = int(pressure);
     
     
     Status = 0;
 
+
+
+    Temperature_out += 273;
+    Temperature_in += 273;
+
+    uint16_t t10 = 
+
     Distance = static_cast<uint16_t>(*distances);
-    serial_data(Temperature_out+7, Temperature_out, Pressure, 65, Distance, Status); //wyświetlanie danych w serial monitorze
+    serial_data(Temperature_out, Temperature_out, Pressure, 65, Distance, Status); //wyświetlanie danych w serial monitorze
   
 
 
